@@ -3,6 +3,7 @@ package main.entity;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
+import javax.json.bind.annotation.JsonbTransient;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Collection;
@@ -10,6 +11,17 @@ import java.util.Date;
 import java.util.List;
 
 @Entity
+@Table(
+		name = "Episode",
+		uniqueConstraints =  @UniqueConstraint(
+				name = "uk_episode_title_anime",
+				columnNames = {
+						"title",
+						"episode",
+						"parentId"
+				}
+		)
+)
 @Cacheable(true)
 public class Episode implements Serializable {
 	
@@ -40,10 +52,21 @@ public class Episode implements Serializable {
 		this.anime = anime;
 	}
 	*/
+	@JsonbTransient
 	 @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-	@JoinColumn(name = "animeId")
+	 @JoinColumn(
+			 name = "anime_id",
+			 foreignKey = @ForeignKey(name = "fk_episode_anime_id")
+	 )
 	private Anime anime;
 	
+	public Anime getAnime() {
+		return anime;
+	}
+	
+	public void setAnime(Anime anime) {
+		this.anime = anime;
+	}
 	
 	public Long getParentId() {
 		return parentId;
@@ -97,11 +120,4 @@ public class Episode implements Serializable {
 	private Date updateDate;
 	
 	
-	public Anime getAnime() {
-		return anime;
-	}
-	
-	public void setAnime(Anime anime) {
-		this.anime = anime;
-	}
 }

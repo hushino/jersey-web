@@ -3,6 +3,7 @@ package main.entity;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
+import javax.json.bind.annotation.JsonbTransient;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.*;
@@ -22,8 +23,22 @@ public class Anime implements Serializable {
 	@Column
 	private String data;
 	
+	public List<Episode> getEpisode() {
+		return episode;
+	}
+	
+	public void setEpisode(List<Episode> episode) {
+		this.episode = episode;
+	}
+	@JsonbTransient
 	@OneToMany(fetch = FetchType.EAGER, mappedBy = "anime", cascade = CascadeType.ALL)
 	private List<Episode> episode = new ArrayList<>();
+	
+	public void addEpisode(Episode episode){
+		this.episode.add(episode);
+		episode.setAnime(this);
+	}
+	
 	/*@ManyToMany(cascade = CascadeType.ALL,fetch = FetchType.EAGER)
 	@JoinTable(name = "ANIME_EPISODE", joinColumns = { @JoinColumn(name = "ANIME_ID") },
 			inverseJoinColumns = {@JoinColumn(name = "EPISODE_ID") })

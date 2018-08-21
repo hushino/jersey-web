@@ -1047,21 +1047,34 @@
       <DataType>datetime|0s</DataType>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="261" parent="247" name="animeId">
+    <column id="261" parent="247" name="anime_id">
       <Position>7</Position>
       <DataType>bigint(20)|0s</DataType>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <index id="262" parent="247" name="FKram4hdjbqty04gwq9p6ukqh3s">
-      <ColNames>animeId</ColNames>
+    <index id="262" parent="247" name="uk_episode_title_anime">
+      <ColNames>title
+episode
+parentId</ColNames>
+      <Unique>1</Unique>
       <Type>btree</Type>
     </index>
-    <key id="263" parent="247" name="PRIMARY">
+    <index id="263" parent="247" name="fk_episode_anime_id">
+      <ColNames>anime_id</ColNames>
+      <Type>btree</Type>
+    </index>
+    <key id="264" parent="247" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>episode_id</ColNames>
       <Primary>1</Primary>
     </key>
-    <column id="264" parent="248" name="next_val">
+    <key id="265" parent="247" name="uk_episode_title_anime">
+      <ColNames>title
+episode
+parentId</ColNames>
+      <UnderlyingIndexName>uk_episode_title_anime</UnderlyingIndexName>
+    </key>
+    <column id="266" parent="248" name="next_val">
       <Position>1</Position>
       <DataType>bigint(20)|0s</DataType>
       <ColumnKind>normal</ColumnKind>

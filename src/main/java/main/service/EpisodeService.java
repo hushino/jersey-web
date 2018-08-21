@@ -15,19 +15,19 @@ public class EpisodeService {
 	private Session session = null;
 	private Transaction transaction = null;
 	
-	public List<Episode> getAllEpisodesOfAnAnime(Long animeId) {
+	public List<Anime> getAllEpisodesOfAnAnime(Long animeId) {
 		session = HibernateUtil.getSessionFactory().openSession();
-		ArrayList<Episode> arreglo = new ArrayList<>();
-		for (Object oneObject : session.createQuery("select p from Episode p where p.parentId=:name")
-				.setParameter("name", animeId)
+		ArrayList<Anime> arreglo = new ArrayList<>();
+		for (Object oneObject : session.createQuery("SELECT e FROM Anime e LEFT JOIN FETCH e.episode WHERE e.id=:animeId")
+				.setParameter("animeId", animeId)
 				.getResultList())
 		{
-			arreglo.add((Episode) oneObject);
+			arreglo.add((Anime) oneObject);
 		}
 		session.close();
 		return arreglo;
 	}
- 
+    //from EmployeeBO join fetch EmployeeBO.department
 	
 	//FROM Episode t WHERE t.parentId=:animeId ORDER BY t.updateDate ASC trae anime+cap
 	//"FROM Anime a join a.episode r where r.parentId=:animeId" trae el anime del cap

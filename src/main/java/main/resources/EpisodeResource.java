@@ -1,6 +1,7 @@
 package main.resources;
 
 
+import main.entity.Anime;
 import main.entity.Episode;
 import main.service.EpisodeService;
 
@@ -17,7 +18,7 @@ public class EpisodeResource {
 	
 	@GET
 	@Path("/{episodeId}")
-	public List<Episode> getAllEpisodesOfAnAnime(@PathParam("animeId") Long animeId){
+	public List<Anime> getAllEpisodesOfAnAnime(@PathParam("animeId") Long animeId){
 		return episodeService.getAllEpisodesOfAnAnime(animeId);
 	}
 	

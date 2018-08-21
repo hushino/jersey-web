@@ -18,7 +18,7 @@ public class EpisodeService {
 	public List<Episode> getAllEpisodesOfAnAnime(Long animeId) {
 		session = HibernateUtil.getSessionFactory().openSession();
 		ArrayList<Episode> arreglo = new ArrayList<>();
-		for (Object oneObject : session.createQuery("SELECT e FROM Episode e LEFT JOIN FETCH e.anime WHERE e.parentId=:animeId")
+		for (Object oneObject : session.createQuery("FROM Episode e LEFT JOIN FETCH e.anime WHERE e.parentId=:animeId")
 				.setParameter("animeId", animeId)
 				.getResultList())
 		{

@@ -31,7 +31,7 @@ public class Anime implements Serializable {
 		this.episode = episode;
 	}
 	@JsonbTransient
-	@OneToMany(fetch = FetchType.EAGER, mappedBy = "anime", cascade = CascadeType.ALL)
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "anime", cascade = CascadeType.ALL)
 	private List<Episode> episode = new ArrayList<>();
 	
 	public void addEpisode(Episode episode){

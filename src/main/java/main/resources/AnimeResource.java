@@ -56,7 +56,7 @@ public class AnimeResource {
     }
     
 	// subresource
-	@Path("{animeId}/episode")
+	@Path("/view")
 	public EpisodeResource getEpisodeResource(){
 		return new EpisodeResource();
 	}

@@ -53,7 +53,7 @@ public class Episode implements Serializable {
 	}
 	*/
 	@JsonbTransient
-	 @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	 @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	 @JoinColumn(
 			 name = "anime_id",
 			 foreignKey = @ForeignKey(name = "fk_episode_anime_id")

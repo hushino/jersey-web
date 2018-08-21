@@ -18,8 +18,8 @@ public class EpisodeService {
 	public List<Episode> getAllEpisodesOfAnAnime(Long animeId) {
 		session = HibernateUtil.getSessionFactory().openSession();
 		ArrayList<Episode> arreglo = new ArrayList<>();
-		for (Object oneObject : session.createQuery("FROM Episode t WHERE t.parentId=:animeId ORDER BY t.updateDate ASC ")
-				.setParameter("animeId", animeId)
+		for (Object oneObject : session.createQuery("select p from Episode p where p.parentId=:name")
+				.setParameter("name", animeId)
 				.getResultList())
 		{
 			arreglo.add((Episode) oneObject);
@@ -27,7 +27,9 @@ public class EpisodeService {
 		session.close();
 		return arreglo;
 	}
+ 
 	
+	//FROM Episode t WHERE t.parentId=:animeId ORDER BY t.updateDate ASC trae anime+cap
 	//"FROM Anime a join a.episode r where r.parentId=:animeId" trae el anime del cap
 	public Episode addEpisode(Long animeId, Episode episode) {
 		session = HibernateUtil.getSessionFactory().openSession();

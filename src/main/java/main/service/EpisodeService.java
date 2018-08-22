@@ -53,6 +53,16 @@ public class EpisodeService {
 		return episode;
 	}
 	
+	public void removeEpisode(Long episodeId) {
+		session = HibernateUtil.getSessionFactory().openSession();
+		transaction = session.getTransaction();
+		transaction.begin();
+		Episode episode = session.get(Episode.class, episodeId);
+		session.delete(episode);
+		transaction.commit();
+		session.close();
+	}
+	
 	
 	/*public List<Episode> getAllEpisodesOfAnAnime(Long animeId) {
 		session = HibernateUtil.getSessionFactory().openSession();

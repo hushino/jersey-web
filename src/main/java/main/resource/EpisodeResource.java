@@ -40,4 +40,10 @@ public class EpisodeResource {
 		episode.setId(animeId);
 		return episodeService.putEpisode(animeId, episode);
 	}
+	
+	@DELETE
+	@Path( "/{episodeId}" )
+	public void deleteEpisode(@PathParam( "episodeId" ) Long episodeId) {
+		episodeService.removeEpisode(episodeId);
+	}
 }

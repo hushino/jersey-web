@@ -9,6 +9,7 @@ import java.io.Serializable;
 import java.util.*;
 
 @Entity
+@Table
 @Cacheable(true)
 public class Anime implements Serializable {
 	
@@ -23,17 +24,22 @@ public class Anime implements Serializable {
 	@Column
 	private String data;
 	
+	@JsonbTransient
 	public List<Episode> getEpisode() {
 		return episode;
 	}
 	
+	@JsonbTransient
 	public void setEpisode(List<Episode> episode) {
 		this.episode = episode;
 	}
+	
+	// use optional=false (much faster) @OneToMany(optional = false)
 	@JsonbTransient
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "anime", cascade = CascadeType.ALL)
+	@OneToMany(fetch = FetchType.EAGER, mappedBy = "anime", cascade = CascadeType.ALL)
 	private List<Episode> episode = new ArrayList<>();
 	
+	@JsonbTransient
 	public void addEpisode(Episode episode){
 		this.episode.add(episode);
 		episode.setAnime(this);
@@ -94,4 +100,16 @@ public class Anime implements Serializable {
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name = "update_date")
 	private Date updateDate;
+	
+	@Override
+	public String toString() {
+		return "Anime{"+
+				"id="+id+
+				", title='"+title+'\''+
+				", data='"+data+'\''+
+				", episode="+episode+
+				", createDate="+createDate+
+				", updateDate="+updateDate+
+				'}';
+	}
 }

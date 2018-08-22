@@ -15,18 +15,30 @@ import java.util.List;
 public class EpisodeResource {
 	
 	private EpisodeService episodeService = new EpisodeService();
-	
+	//  Solo trae los caps de un anime
 	@GET
 	@Path("/{animeId}")
 	public List<Episode> getAllEpisodesOfAnAnime(@PathParam("animeId") Long animeId){
 		return episodeService.getAllEpisodesOfAnAnime(animeId);
 	}
 	
+	@GET
+	@Path("/{animeId}/v")
+	public Anime getAnimeOfAnEpisode(@PathParam("animeId") Long animeId){
+		return episodeService.getAnimeOfAnEpisode(animeId);
+	}
+	
+	/* @GET
+	@Path("/{animeId}")
+	public List<Episode> getAllEpisodesWithAnime(@PathParam("animeId") Long animeId){
+		return episodeService.getAllEpisodesWithAnime(animeId);
+	}*/
+	
 	@POST
+	@Path("/{animeId}")
 	public Episode addEpisode(@PathParam("animeId") Long animeId, Episode episode){
 		return episodeService.addEpisode(animeId,episode);
 	}
-	
 	
 	
 	/*@POST

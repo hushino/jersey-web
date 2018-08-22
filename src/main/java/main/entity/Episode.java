@@ -52,8 +52,9 @@ public class Episode implements Serializable {
 		this.anime = anime;
 	}
 	*/
+	// use optional=false (much faster) @OneToMany(optional = false)
 	@JsonbTransient
-	 @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	 @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 	 @JoinColumn(
 			 name = "anime_id",
 			 foreignKey = @ForeignKey(name = "fk_episode_anime_id")
@@ -64,6 +65,7 @@ public class Episode implements Serializable {
 		return anime;
 	}
 	
+	@JsonbTransient
 	public void setAnime(Anime anime) {
 		this.anime = anime;
 	}
@@ -119,5 +121,16 @@ public class Episode implements Serializable {
 	@Column(name = "update_date")
 	private Date updateDate;
 	
-	
+	@Override
+	public String toString() {
+		return "Episode{"+
+				"id="+id+
+				", title='"+title+'\''+
+				", episode="+episode+
+				", parentId="+parentId+
+				
+				", createDate="+createDate+
+				", updateDate="+updateDate+
+				'}';
+	}
 }

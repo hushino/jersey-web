@@ -33,7 +33,7 @@ public class AnimeResource {
     	return animeService.addAnime(anime);
     }
     
-    // get by id
+    // get by id, sirve para solo mostrar la cartelera
     @GET
 	@Path("/{animeId}")
 	public Anime getAnime(@PathParam("animeId")Long id){

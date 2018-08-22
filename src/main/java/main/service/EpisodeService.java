@@ -16,7 +16,8 @@ public class EpisodeService {
 	public List<Episode> getAllEpisodesOfAnAnime(Long animeId) {
 		session = HibernateUtil.getSessionFactory().openSession();
 		Anime anime = session.find(Anime.class, animeId);
-		List<Episode> episodes = anime.getEpisode().subList(0, 2);
+		List<Episode> episodes = anime.getEpisode();
+		session.close();
 		return episodes;
 	}
 	
@@ -38,6 +39,20 @@ public class EpisodeService {
 		session.close();
 		return episode;
 	}
+	
+	// se le pasa el id del anime y se actualiza solo enviando los datos del episodio sin id en su campo
+	public Episode putEpisode(Long animeId, Episode episode) {
+		session = HibernateUtil.getSessionFactory().openSession();
+		transaction = session.getTransaction();
+		transaction.begin();
+		Anime anime = session.find(Anime.class, animeId);
+		episode.setAnime(anime);
+		session.update(episode);
+		transaction.commit();
+		session.close();
+		return episode;
+	}
+	
 	
 	/*public List<Episode> getAllEpisodesOfAnAnime(Long animeId) {
 		session = HibernateUtil.getSessionFactory().openSession();

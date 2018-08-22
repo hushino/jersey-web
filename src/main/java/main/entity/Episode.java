@@ -1,28 +1,17 @@
 package main.entity;
 
 import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.DynamicUpdate;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.json.bind.annotation.JsonbTransient;
 import javax.persistence.*;
 import java.io.Serializable;
-import java.util.Collection;
 import java.util.Date;
-import java.util.List;
 
-@Entity
-@Table(
-		name = "Episode",
-		uniqueConstraints =  @UniqueConstraint(
-				name = "uk_episode_title_anime",
-				columnNames = {
-						"title",
-						"episode",
-						"parentId"
-				}
-		)
-)
-@Cacheable(true)
+@Entity()
+@Cacheable()
+@DynamicUpdate()
 public class Episode implements Serializable {
 	
 	@Id
@@ -36,8 +25,6 @@ public class Episode implements Serializable {
 	@Column
 	private double episode;
 	
-	@Column
-	private Long parentId;
 	
 	//@ElementCollection(targetClass=Anime.class,fetch = FetchType.EAGER)
 	
@@ -54,11 +41,8 @@ public class Episode implements Serializable {
 	*/
 	// use optional=false (much faster) @OneToMany(optional = false)
 	@JsonbTransient
-	 @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-	 @JoinColumn(
-			 name = "anime_id",
-			 foreignKey = @ForeignKey(name = "fk_episode_anime_id")
-	 )
+	@ManyToOne( fetch = FetchType.LAZY, cascade = CascadeType.ALL )
+	@JoinColumn( name = "anime_id" )
 	private Anime anime;
 	
 	public Anime getAnime() {
@@ -70,19 +54,10 @@ public class Episode implements Serializable {
 		this.anime = anime;
 	}
 	
-	public Long getParentId() {
-		return parentId;
-	}
 	
-	public void setParentId(Long parentId) {
-		this.parentId = parentId;
-	}
-	
-	
-	public Episode(String title, double episode, Long parentId, Anime anime) {
+	public Episode(String title, double episode, Anime anime) {
 		this.title = title;
 		this.episode = episode;
-		this.parentId = parentId;
 		this.anime = anime;
 	}
 	
@@ -123,13 +98,28 @@ public class Episode implements Serializable {
 	@Column(name = "update_date")
 	private Date updateDate;
 	
+	public Date getCreateDate() {
+		return createDate;
+	}
+	
+	public void setCreateDate(Date createDate) {
+		this.createDate = createDate;
+	}
+	
+	public Date getUpdateDate() {
+		return updateDate;
+	}
+	
+	public void setUpdateDate(Date updateDate) {
+		this.updateDate = updateDate;
+	}
+	
 	@Override
 	public String toString() {
 		return "Episode{"+
 				"id="+id+
 				", title='"+title+'\''+
 				", episode="+episode+
-				", parentId="+parentId+
 				", anime="+anime+
 				", createDate="+createDate+
 				", updateDate="+updateDate+

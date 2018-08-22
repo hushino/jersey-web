@@ -1,16 +1,20 @@
 package main.entity;
 
 import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.DynamicUpdate;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.json.bind.annotation.JsonbTransient;
 import javax.persistence.*;
 import java.io.Serializable;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 
 @Entity
 @Table
-@Cacheable(true)
+@Cacheable()
+@DynamicUpdate()
 public class Anime implements Serializable {
 	
 	@Id
@@ -36,7 +40,7 @@ public class Anime implements Serializable {
 	
 	// use optional=false (much faster) @OneToMany(optional = false)
 	@JsonbTransient
-	@OneToMany(fetch = FetchType.EAGER, mappedBy = "anime", cascade = CascadeType.ALL)
+	@OneToMany( fetch = FetchType.LAZY, mappedBy = "anime", cascade = CascadeType.ALL )
 	private List<Episode> episode = new ArrayList<>();
 	
 	@JsonbTransient

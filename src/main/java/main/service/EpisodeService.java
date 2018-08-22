@@ -40,18 +40,34 @@ public class EpisodeService {
 		return episode;
 	}
 	
-	// se le pasa el id del anime y se actualiza solo enviando los datos del episodio sin id en su campo
-	public Episode putEpisode(Long animeId, Episode episode) {
+	public Episode putEpisode(Episode episode) {
 		session = HibernateUtil.getSessionFactory().openSession();
 		transaction = session.getTransaction();
 		transaction.begin();
-		Anime anime = session.find(Anime.class, animeId);
-		episode.setAnime(anime);
+		Anime anime = new Anime();
+		anime.addEpisode(episode);
 		session.update(episode);
 		transaction.commit();
+		session.clear();
 		session.close();
 		return episode;
 	}
+	// se le pasa el id del anime y se actualiza solo enviando los datos del episodio sin id en su campo
+	/*public Episode putEpisode(*//*Long episodeId,*//* Episode episode) {
+		session = HibernateUtil.getSessionFactory().openSession();
+		transaction = session.getTransaction();
+		transaction.begin();
+		*//*Date creation = episode.getCreateDate();
+		episode.setCreateDate(creation);*//*
+	 *//*Anime anime = session.find(Anime.class, episodeId);
+		episode.setAnime(anime);*//*
+		//episode.setId(episodeId);
+		session.update(episode);
+		transaction.commit();
+		session.clear();
+		session.close();
+		return episode;
+	}*/
 	
 	public void removeEpisode(Long episodeId) {
 		session = HibernateUtil.getSessionFactory().openSession();

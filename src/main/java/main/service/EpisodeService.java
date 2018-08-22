@@ -6,22 +6,43 @@ import main.hibernateUtil.HibernateUtil;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 
-import javax.persistence.EntityManager;
-import java.util.ArrayList;
 import java.util.List;
 
 public class EpisodeService {
 	
 	private Session session = null;
 	private Transaction transaction = null;
-	//Solo trae los caps de un anime
-	private static EntityManager manager;
-	private static EntityManager emf= HibernateUtil.getSessionFactory().createEntityManager();
- 
-	 public List<Episode> getAllEpisodesOfAnAnime(Long animeId) {
+	
+	public List<Episode> getAllEpisodesOfAnAnime(Long animeId) {
+		session = HibernateUtil.getSessionFactory().openSession();
+		Anime anime = session.find(Anime.class, animeId);
+		List<Episode> episodes = anime.getEpisode().subList(0, 2);
+		return episodes;
+	}
+	
+	public Anime getAnimeOfAnEpisode(Long animeId) {
+		session = HibernateUtil.getSessionFactory().openSession();
+		Anime anime = session.find(Anime.class, animeId);
+		session.close();
+		return anime;
+	}
+	
+	public Episode addEpisode(Long animeId, Episode episode) {
+		session = HibernateUtil.getSessionFactory().openSession();
+		transaction = session.getTransaction();
+		transaction.begin();
+		Anime anime = session.find(Anime.class, animeId);
+		episode.setAnime(anime);
+		session.save(episode);
+		transaction.commit();
+		session.close();
+		return episode;
+	}
+	
+	/*public List<Episode> getAllEpisodesOfAnAnime(Long animeId) {
 		session = HibernateUtil.getSessionFactory().openSession();
 		ArrayList<Episode> episodeArrayList = new ArrayList<>();
-		for (Object episodeObject : session.createQuery("FROM Episode e LEFT JOIN FETCH e.anime WHERE e.parentId=:animeId")
+		for (Object episodeObject : session.createQuery("FROM Episode e LEFT JOIN FETCH e.anime WHERE e.episode=:animeId")
 				.setParameter("animeId", animeId)
 				.getResultList())
 		{//FROM Episode e LEFT JOIN FETCH e.anime WHERE e.parentId=:animeId
@@ -30,28 +51,7 @@ public class EpisodeService {
 		
 		session.close();
 		return episodeArrayList;
-	}
-	public Anime getAnimeOfAnEpisode(Long animeId) {
-		
-		manager = emf.getEntityManagerFactory().createEntityManager();
-		
-		Anime anime= manager.find(Anime.class,animeId);
-		
-		
-		/*List<Episode> episodes = anime.getEpisode();
-		
-		for (Episode episodeObject : episodes)
-		{
-		
-		}*/
-		
-		//System.out.println(anime);
-		
-		emf.close();
-		return anime;
-	}
-	
-	
+	}*/
 	/*public List<Episode> getAllEpisodesOfAnAnime(Long animeId) {
 		session = HibernateUtil.getSessionFactory().openSession();
 		ArrayList<Episode> episodeArrayList = new ArrayList<>();
@@ -65,7 +65,6 @@ public class EpisodeService {
 		session.close();
 		return episodeArrayList;
 	}*/
-	
 	
 	
 	// needs optimization
@@ -149,20 +148,11 @@ public class EpisodeService {
 	* */
 	
 	//FROM Episode a LEFT JOIN FETCH a.anime r where r.id=:animeId query extraña
-    //from EmployeeBO join fetch EmployeeBO.department
+	//from EmployeeBO join fetch EmployeeBO.department
 	//SELECT e FROM Anime e LEFT JOIN FETCH e.episode WHERE e.id=:animeId trae el anime
 	//FROM Episode t WHERE t.parentId=:animeId ORDER BY t.updateDate ASC trae anime+cap
 	//"FROM Anime a join a.episode r where r.parentId=:animeId" trae el anime del cap
-	public Episode addEpisode(Long animeId, Episode episode) {
-		session = HibernateUtil.getSessionFactory().openSession();
-		transaction = session.getTransaction();
-		transaction.begin();
-		episode.setParentId(animeId);
-		session.save(episode);
-		transaction.commit();
-		session.close();
-		return episode;
-	}
+	
 	
 	
 	

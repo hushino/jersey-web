@@ -1,4 +1,4 @@
-package main.resources;
+package main.resource;
 
 import main.entity.Anime;
 import main.service.AnimeService;

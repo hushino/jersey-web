@@ -1,7 +1,6 @@
-package main.resources;
+package main.resource;
 
 import main.entity.Episode;
-import main.service.EpisodeService;
 import main.service.HomeService;
 
 import javax.ws.rs.Consumes;

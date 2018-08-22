@@ -107,7 +107,7 @@ public class Anime implements Serializable {
 				"id="+id+
 				", title='"+title+'\''+
 				", data='"+data+'\''+
-				", episode="+episode+
+				/*", episode="+episode+*/
 				", createDate="+createDate+
 				", updateDate="+updateDate+
 				'}';

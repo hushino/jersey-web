@@ -31,8 +31,8 @@ public class HibernateUtil {
 				settings.put(Environment.DIALECT, "org.hibernate.dialect.MySQL5Dialect");
 				//settings.put(Environment.VALIDATE_QUERY_PARAMETERS, "SELECT 1");
 				// Enable second level cache (default value is true)
-				settings.put(Environment.USE_SECOND_LEVEL_CACHE, true);
-				settings.put(Environment.USE_QUERY_CACHE, true);
+				settings.put(Environment.USE_SECOND_LEVEL_CACHE, false);
+				settings.put(Environment.USE_QUERY_CACHE, false);
 				
 				// settings.put(Environment.GENERATE_STATISTICS, true);
 				

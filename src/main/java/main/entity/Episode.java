@@ -79,9 +79,11 @@ public class Episode implements Serializable {
 	}
 	
 	
-	public Episode(String title, double episode) {
+	public Episode(String title, double episode, Long parentId, Anime anime) {
 		this.title = title;
 		this.episode = episode;
+		this.parentId = parentId;
+		this.anime = anime;
 	}
 	
 	public Episode() {
@@ -128,7 +130,7 @@ public class Episode implements Serializable {
 				", title='"+title+'\''+
 				", episode="+episode+
 				", parentId="+parentId+
-				
+				", anime="+anime+
 				", createDate="+createDate+
 				", updateDate="+updateDate+
 				'}';

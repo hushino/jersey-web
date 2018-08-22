@@ -9,23 +9,22 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class AnimeService {
-
+	
 	private Session session = null;
 	private Transaction transaction = null;
 	
-	public List<Anime> getAllAnimesPaginated(int start, int size){
+	public List<Anime> getAllAnimesPaginated(int start, int size) {
 		session = HibernateUtil.getSessionFactory().openSession();
 		ArrayList<Anime> arreglo = new ArrayList<>();
-		for (Object oneObject : session.createQuery("FROM Anime a ORDER BY a.updateDate DESC")
-				.getResultList())
-		{
-			arreglo.add((Anime) oneObject);
+		for(Object oneObject : session.createQuery("FROM Anime a ORDER BY a.updateDate DESC")
+				.getResultList()) {
+			arreglo.add(( Anime ) oneObject);
 		}
 		session.close();
-		return arreglo.subList(start, start + size);
+		return arreglo.subList(start, start+size);
 	}
 	
-	public Anime addAnime(Anime anime){
+	public Anime addAnime(Anime anime) {
 		try{
 			session = HibernateUtil.getSessionFactory().openSession();
 			transaction = session.getTransaction();
@@ -33,12 +32,12 @@ public class AnimeService {
 			session.save(anime);
 			transaction.commit();
 		}catch(Exception e){
-			if ( transaction != null ){
+			if(transaction!=null){
 				transaction.rollback();
 			}
 			
 		}finally{
-			if ( session != null ){
+			if(session!=null){
 				session.close();
 			}
 		}
@@ -58,14 +57,13 @@ public class AnimeService {
 	public List<Anime> getAllAnimes() {
 		session = HibernateUtil.getSessionFactory().openSession();
 		ArrayList<Anime> arreglo = new ArrayList<>();
-		for (Object oneObject : session.createQuery("FROM Anime a ORDER BY a.updateDate DESC")
+		for(Object oneObject : session.createQuery("FROM Anime a ORDER BY a.updateDate DESC")
 				/*.setHint("org.hibernate.cacheable", true)
 				.setCacheRegion("common")*/
 				.setMaxResults(10)
 				.getResultList()
-		)
-		{
-			arreglo.add((Anime) oneObject);
+		) {
+			arreglo.add(( Anime ) oneObject);
 		}
 		session.close();
 		return arreglo;
